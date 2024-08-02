@@ -31,6 +31,41 @@ The **DeviceService** project offers the following features:
 - **JWT:** Secure authentication using JSON Web Tokens.
 - **ASP.NET Core:** Web framework for building APIs.
 
+## Configuration and Architecture
+
+### Dependency Injection (DI)
+
+The project utilizes Dependency Injection (DI) to manage class instances and enhance the modularity and testability of the code. Here's how it's configured:
+
+- **Service Registration**: Services such as `RemoteServiceManager` and `ServiceManager` are registered in the DI container using the `ServiceCollection` class. This registration allows for the automatic creation and management of these class instances with the necessary configuration.
+
+- **Service Injection**: When a service is needed, it is retrieved from the DI container. This approach avoids manual instance creation and automatically manages their lifecycle and dependencies.
+
+- **Example Configuration**: Here's how services are registered and used:
+  ```csharp
+  private static void CreateServices()
+  {
+      var serviceCollection = new ServiceCollection();
+
+      // Registering services
+      serviceCollection.AddSingleton(_serviceConfig);
+      serviceCollection.AddSingleton(_jwtSettings);
+      serviceCollection.AddSingleton<RemoteServiceManager>();
+      serviceCollection.AddSingleton<ServiceManager>();
+
+      _serviceProvider = serviceCollection.BuildServiceProvider();
+  }
+
+  // Retrieving services from the DI container
+   var remoteServiceManager = _serviceProvider.GetRequiredService<RemoteServiceManager>();
+   var serviceManager = _serviceProvider.GetRequiredService<ServiceManager>();
+
+   // Using services
+   remoteServiceManager.StartServer();
+   serviceManager.StartService();
+   ```
+This approach keeps the code modular, facilitates unit testing, and ensures centralized management of configurations and dependencies.
+
 ##  Installation and Usage
 
 1. **Clone the repository:**
