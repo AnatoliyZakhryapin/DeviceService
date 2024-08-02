@@ -69,23 +69,12 @@ This approach keeps the code modular, facilitates unit testing, and ensures cent
 ##  Installation and Usage
 1. **Clone the repository DeviceServiceServer for remote controll:**
    ```bash
-   git clone https://github.com/AnatoliyZakhryapin/DeviceServiceServer.git 
-   cd DeviceServiceServer\DeviceServiceServer
+   git clone https://github.com/AnatoliyZakhryapin/DeviceServiceServer.git
+   ``` 
 
- 2. **Run the DeviceServiceServer:**  
-   ```bash
-   dotnet run
-   ```
-
- 3. **Clone the repository DeviceService:**
+ 2. **Clone the repository DeviceService:**
    ```bash
    git clone https://github.com/AnatoliyZakhryapin/DeviceService.git 
-   cd DeviceService\DeviceService
-   ```
-
- 4. **Run the DeviceService:**  
-   ```bash
-   dotnet run
    ```
 
 ## Configuration
