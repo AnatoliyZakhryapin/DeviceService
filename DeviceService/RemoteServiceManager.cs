@@ -14,13 +14,15 @@ namespace DeviceService
     internal class RemoteServiceManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly ServiceConfig _serviceConfig;
         private readonly JwtSettings _jwtSettings;
         private readonly ServiceManager _serviceManager;
 
-        public RemoteServiceManager(JwtSettings jwtSettings, ServiceManager serviceManager)
+        public RemoteServiceManager(JwtSettings jwtSettings, ServiceManager serviceManager, ServiceConfig serviceConfig)
         {
             _jwtSettings = jwtSettings;
             _serviceManager = serviceManager;
+            _serviceConfig = serviceConfig;
         }
 
         public void StartServer()
@@ -94,7 +96,7 @@ namespace DeviceService
                 Console.WriteLine();
             }).RequireAuthorization();
 
-            Task.Run(() => app.Run("https://localhost:5000")); // Start server on port 5000
+            Task.Run(() => app.Run($"{_serviceConfig.ServiceURL}:{_serviceConfig.ServicePort}"));
         }
     }
 }

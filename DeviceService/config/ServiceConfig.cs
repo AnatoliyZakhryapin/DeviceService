@@ -7,5 +7,7 @@
         public int Interval { get; set; }
         public string DataEndpoint { get; set; }
         public string LoginEndpoint { get; set; }
+        public string ServiceURL { get; set; }
+        public string ServicePort { get; set; }
     }
 }
