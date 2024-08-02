@@ -21,14 +21,16 @@ namespace DeviceService
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static Timer _timer;
         private readonly ServiceConfig _serviceConfig;
+        private readonly JwtSettings _jwtSettings;
         private static bool _serviceRunning;
         private static string _csvFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../Data", "SensorData.csv");
         private static string _token;
         private static DateTime _tokenExpiry;
 
-        public ServiceManager(ServiceConfig serviceConfig)
+        public ServiceManager(ServiceConfig serviceConfig, JwtSettings jwtSettings)
         {
             _serviceConfig = serviceConfig;
+            _jwtSettings = jwtSettings;
         }
 
         public async Task StartService()
@@ -211,7 +213,7 @@ namespace DeviceService
                     var jsonDocument = JsonDocument.Parse(responseBody);
 
                     _token = jsonDocument.RootElement.GetProperty("token").GetString();
-                    _tokenExpiry = DateTime.UtcNow.AddHours(1);
+                    _tokenExpiry = DateTime.UtcNow.AddMinutes(_jwtSettings.TokenExpiryInMinutes);
 
                     Console.WriteLine();
                     Logger.Info("Authentication successful, token obtained.");
