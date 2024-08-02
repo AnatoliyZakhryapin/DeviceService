@@ -1,6 +1,7 @@
 ﻿using Azure;
 using CsvHelper;
 using CsvHelper.Configuration;
+using DeviceService.config;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -15,30 +16,22 @@ using Timer = System.Timers.Timer;
 
 namespace DeviceService
 {
-    internal static class ServiceManager
+    internal class ServiceManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static Timer _timer;
+        private readonly ServiceConfig _serviceConfig;
         private static bool _serviceRunning;
-        private static int _interval;
         private static string _csvFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../Data", "SensorData.csv");
-        private static string _dataEndpoint;
-        private static string _loginEndpoint;
         private static string _token;
         private static DateTime _tokenExpiry;
-        private static string _username;
-        private static string _password;
 
-        public static void Configure(IConfiguration configuration)
+        public ServiceManager(ServiceConfig serviceConfig)
         {
-            _username = configuration["ServiceConfig:Username"];
-            _password = configuration["ServiceConfig:Password"];
-            _interval = Convert.ToInt32(configuration["ServiceConfig:Interval"]);
-            _dataEndpoint = configuration["ServiceConfig:DataEndpoint"];
-            _loginEndpoint = configuration["ServiceConfig:LoginEndpoint"];
+            _serviceConfig = serviceConfig;
         }
 
-        public static async void StartService()
+        public async Task StartService()
         {
             if (_serviceRunning)
             {
@@ -49,12 +42,6 @@ namespace DeviceService
             Logger.Info("Starting service...");
             Console.WriteLine(); 
 
-            var configuration = new ConfigurationBuilder()
-             .AddJsonFile("appsettings.json")
-             .Build();
-
-            Configure(configuration);
-
             // First authentication
             if (!await AuthenticateAsync())
             {
@@ -64,7 +51,7 @@ namespace DeviceService
 
             Logger.Info("Initial authentication successful.");
 
-            _timer = new Timer(_interval);
+            _timer = new Timer(_serviceConfig.Interval);
             _timer.Elapsed += async (sender, e) => await OnTimedEvent();
             _timer.AutoReset = true;
             _timer.Enabled = true;
@@ -72,7 +59,7 @@ namespace DeviceService
             _serviceRunning = true;
         }
 
-        public static void StopService()
+        public async Task StopService()
         {
             if (!_serviceRunning)
             {
@@ -89,13 +76,13 @@ namespace DeviceService
             _serviceRunning = false;
         }
 
-        public static void RestartService()
+        public async Task RestartService()
         {
             Logger.Info("Service restarted");
             StopService();
             StartService();
         }
-        private static List<SensorData> ReadCsvFile(string filePath)
+        private List<SensorData> ReadCsvFile(string filePath)
         {
 
             List<SensorData> sensorDataList = new List<SensorData>();
@@ -133,13 +120,13 @@ namespace DeviceService
             return sensorDataList;
         }
 
-        private static DateTime ConvertTimestampToDateTime(long timestamp)
+        private DateTime ConvertTimestampToDateTime(long timestamp)
         {
             DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return epoch.AddMilliseconds(timestamp);
         }
 
-        private static void TransformSensorDataList(List<SensorData> sensorDataList)
+        private void TransformSensorDataList(List<SensorData> sensorDataList)
         {
             foreach (SensorData sensorData in sensorDataList)
             {
@@ -147,7 +134,7 @@ namespace DeviceService
             }
         }
 
-        private static async Task OnTimedEvent()
+        private async Task OnTimedEvent()
         {
             Console.WriteLine();
             List<SensorData> sensorDataList = null;
@@ -203,21 +190,21 @@ namespace DeviceService
             Console.WriteLine("Press [Enter] to stop service");
         }
 
-        private static async Task<bool> AuthenticateAsync()
+        private async Task<bool> AuthenticateAsync()
         {
             using (var client = new HttpClient())
             {
                 var loginModel = new
                 {
-                    Email = _username,
-                    Password = _password 
+                    Email = _serviceConfig.Username,
+                    Password = _serviceConfig.Password
                 };
 
                 var content = new StringContent(JsonSerializer.Serialize(loginModel), Encoding.UTF8, "application/json");
 
                 try
                 {
-                    var response = await client.PostAsync(_loginEndpoint, content);
+                    var response = await client.PostAsync(_serviceConfig.LoginEndpoint, content);
                     response.EnsureSuccessStatusCode();
 
                     var responseBody = await response.Content.ReadAsStringAsync();
@@ -238,7 +225,7 @@ namespace DeviceService
             }
         }
 
-        private static async Task<bool> EnsureValidTokenAsync()
+        private async Task<bool> EnsureValidTokenAsync()
         {
             if (string.IsNullOrEmpty(_token) || DateTime.UtcNow >= _tokenExpiry)
             {
@@ -250,7 +237,7 @@ namespace DeviceService
             return true;
         }
 
-        private static async Task SendDataToServer(List<SensorData> data)
+        private async Task SendDataToServer(List<SensorData> data)
         {
             int maxRetries = 3;
             int delay = 1000;
@@ -266,7 +253,7 @@ namespace DeviceService
                 {
                     try
                     {
-                        var response = await client.PostAsync(_dataEndpoint, content);
+                        var response = await client.PostAsync(_serviceConfig.DataEndpoint, content);
                         if (response.IsSuccessStatusCode)
                         {
                             return;

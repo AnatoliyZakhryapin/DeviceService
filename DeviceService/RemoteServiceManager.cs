@@ -1,4 +1,5 @@
 ﻿
+using DeviceService.config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,11 +11,19 @@ using System.Threading.Tasks;
 
 namespace DeviceService
 {
-    internal static class RemoteServiceManager
+    internal class RemoteServiceManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly JwtSettings _jwtSettings;
+        private readonly ServiceManager _serviceManager;
 
-        public static void StartServer()
+        public RemoteServiceManager(JwtSettings jwtSettings, ServiceManager serviceManager)
+        {
+            _jwtSettings = jwtSettings;
+            _serviceManager = serviceManager;
+        }
+
+        public void StartServer()
         {
             var builder = WebApplication.CreateBuilder();
 
@@ -31,9 +40,9 @@ namespace DeviceService
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "MyDeviceServiceIssuer",
-                    ValidAudience = "MyDeviceServiceAudience",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MyKeyPasswordDeviceService123456789!"))
+                    ValidIssuer = _jwtSettings.Issuer,
+                    ValidAudience = _jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey))
                 };
 
                 options.Events = new JwtBearerEvents
@@ -62,7 +71,7 @@ namespace DeviceService
             {
                 Console.WriteLine();
                 Logger.Info("Received start command");
-                ServiceManager.StartService();
+                _serviceManager.StartService();
                 await context.Response.WriteAsync("Service started.");
                 Console.WriteLine();
             }).RequireAuthorization();
@@ -71,7 +80,7 @@ namespace DeviceService
             {
                 Console.WriteLine();
                 Logger.Info("Received stop command");
-                ServiceManager.StopService();
+                _serviceManager.StopService();
                 await context.Response.WriteAsync("Service stopped.");
                 Console.WriteLine();
             }).RequireAuthorization();
@@ -80,7 +89,7 @@ namespace DeviceService
             {
                 Console.WriteLine();
                 Logger.Info("Received restart command");
-                ServiceManager.RestartService();
+                _serviceManager.RestartService();
                 await context.Response.WriteAsync("Service restarted.");
                 Console.WriteLine();
             }).RequireAuthorization();

@@ -32,3 +32,77 @@
 2024-08-01 15:47:57.9659|INFO|DeviceService.ServiceManager|Finish transform sensor data
 2024-08-01 15:47:57.9659|INFO|DeviceService.ServiceManager|Start sending data to the Server
 2024-08-01 15:47:57.9787|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:40:40.2052|INFO|DeviceService.Program|Starting DeviceService...
+2024-08-01 18:40:41.0475|INFO|DeviceService.ServiceManager|Starting service...
+2024-08-01 18:40:41.8025|INFO|DeviceService.ServiceManager|Authentication successful, token obtained.
+2024-08-01 18:40:41.8046|INFO|DeviceService.ServiceManager|Initial authentication successful.
+2024-08-01 18:40:46.8134|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:40:46.8258|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:40:46.8258|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:40:46.8258|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:40:46.8258|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:40:46.9492|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:40:51.8060|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:40:51.8060|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:40:51.8060|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:40:51.8060|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:40:51.8060|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:40:51.8198|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:40:56.8201|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:40:56.8201|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:40:56.8201|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:40:56.8201|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:40:56.8201|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:40:56.8396|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:41:01.8080|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:41:01.8080|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:41:01.8080|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:41:01.8080|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:41:01.8080|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:41:01.8080|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:41:06.8088|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:41:06.8088|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:41:06.8088|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:41:06.8088|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:41:06.8088|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:41:06.8225|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:41:09.6475|INFO|DeviceService.RemoteServiceManager|Received stop command
+2024-08-01 18:41:09.6475|INFO|DeviceService.ServiceManager|Stopping service...
+2024-08-01 18:41:11.6150|INFO|DeviceService.RemoteServiceManager|Received start command
+2024-08-01 18:41:11.6150|INFO|DeviceService.ServiceManager|Starting service...
+2024-08-01 18:41:11.7406|INFO|DeviceService.ServiceManager|Authentication successful, token obtained.
+2024-08-01 18:41:11.7423|INFO|DeviceService.ServiceManager|Initial authentication successful.
+2024-08-01 18:41:16.7455|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:41:16.7455|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:41:16.7455|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:41:16.7455|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:41:16.7455|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:41:16.7596|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:41:21.7471|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:41:21.7471|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:41:21.7471|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:41:21.7471|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:41:21.7471|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:41:21.7726|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-01 18:41:22.2880|INFO|DeviceService.RemoteServiceManager|Received restart command
+2024-08-01 18:41:22.2898|INFO|DeviceService.ServiceManager|Service restarted
+2024-08-01 18:41:22.2898|INFO|DeviceService.ServiceManager|Stopping service...
+2024-08-01 18:41:22.2898|INFO|DeviceService.ServiceManager|Starting service...
+2024-08-01 18:41:22.3982|INFO|DeviceService.ServiceManager|Authentication successful, token obtained.
+2024-08-01 18:41:22.3982|INFO|DeviceService.ServiceManager|Initial authentication successful.
+2024-08-01 18:41:27.4167|INFO|DeviceService.ServiceManager|Start read file
+2024-08-01 18:41:27.4167|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-01 18:41:27.4167|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-01 18:41:27.4167|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-01 18:41:27.4305|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-01 18:41:27.4523|INFO|DeviceService.ServiceManager|The data sent successfully
+2024-08-02 11:11:01.5490|INFO|DeviceService.Program|Starting DeviceService...
+2024-08-02 11:11:02.2861|INFO|DeviceService.ServiceManager|Starting service...
+2024-08-02 11:11:03.5378|INFO|DeviceService.ServiceManager|Authentication successful, token obtained.
+2024-08-02 11:11:03.5400|INFO|DeviceService.ServiceManager|Initial authentication successful.
+2024-08-02 11:11:08.5485|INFO|DeviceService.ServiceManager|Start read file
+2024-08-02 11:11:08.5563|INFO|DeviceService.ServiceManager|Read file success.
+2024-08-02 11:11:08.5563|INFO|DeviceService.ServiceManager|Start transform sensor data
+2024-08-02 11:11:08.5563|INFO|DeviceService.ServiceManager|Finish transform sensor data
+2024-08-02 11:11:08.5563|INFO|DeviceService.ServiceManager|Start sending data to the Server
+2024-08-02 11:11:08.8497|INFO|DeviceService.ServiceManager|The data sent successfully
