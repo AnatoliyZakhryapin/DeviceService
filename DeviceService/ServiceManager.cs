@@ -2,6 +2,7 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using DeviceService.config;
+using DeviceService.Exceptions;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -89,34 +90,41 @@ namespace DeviceService
 
             List<SensorData> sensorDataList = new List<SensorData>();
 
-            using (StreamReader fileStream = new StreamReader(filePath))
+            try
             {
-                string headerLine = fileStream.ReadLine();
-
-                while (!fileStream.EndOfStream)
+                using (StreamReader fileStream = new StreamReader(filePath))
                 {
-                    string line = fileStream.ReadLine();
+                    string headerLine = fileStream.ReadLine();
 
-                    if (line != null)
+                    while (!fileStream.EndOfStream)
                     {
-                        string[] lineValues = line.Split(';');
+                        string line = fileStream.ReadLine();
 
-                        if (lineValues.Length == 5)
+                        if (line != null)
                         {
-                            SensorData sensorData = new SensorData
+                            string[] lineValues = line.Split(';');
+
+                            if (lineValues.Length == 5)
                             {
-                                SensorId =Convert.ToInt32(lineValues[0]),
-                                Timestamp = ConvertTimestampToDateTime(long.Parse(lineValues[1])),
-                                Date = lineValues[2],
-                                Time = lineValues[3],
-                                Value = double.Parse(lineValues[4], new CultureInfo("it-IT"))
-                            };
+                                SensorData sensorData = new SensorData
+                                {
+                                    SensorId = Convert.ToInt32(lineValues[0]),
+                                    Timestamp = ConvertTimestampToDateTime(long.Parse(lineValues[1])),
+                                    Date = lineValues[2],
+                                    Time = lineValues[3],
+                                    Value = double.Parse(lineValues[4], new CultureInfo("it-IT"))
+                                };
 
-                            sensorDataList.Add(sensorData);
+                                sensorDataList.Add(sensorData);
+                            }
+
                         }
-
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new CsvFileReadException();
             }
 
             return sensorDataList;
@@ -130,9 +138,16 @@ namespace DeviceService
 
         private void TransformSensorDataList(List<SensorData> sensorDataList)
         {
-            foreach (SensorData sensorData in sensorDataList)
+            try
             {
-                sensorData.Value = CalibrationCoefficient.TransformValue(sensorData.Value);
+                foreach (SensorData sensorData in sensorDataList)
+                {
+                    sensorData.Value = CalibrationCoefficient.TransformValue(sensorData.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new SensorDataTransformationException();
             }
         }
 
@@ -148,30 +163,14 @@ namespace DeviceService
                 sensorDataList = ReadCsvFile(_csvFilePath);
 
                 Logger.Info("Read file success.");
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Error during reading the CSV file");
-                return; // Exit the method if reading CSV fails
-            }
 
-            try
-            {
                 Logger.Info("Start transform sensor data");
 
                 // Transform data
                 TransformSensorDataList(sensorDataList);
 
                 Logger.Info("Finish transform sensor data");
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex, "Error during transform sensor data");
-                return; // Exit the method if data transformation fails
-            }
 
-            try
-            {
                 Logger.Info("Start sending data to the Server");
 
                 // Send data to Serer
@@ -181,11 +180,27 @@ namespace DeviceService
                 }
 
                 Logger.Info("The data sent successfully");
+
+            }
+            catch (CsvFileReadException ex)
+            {
+                Logger.Error(ex.Message);
+                return;
+            }
+            catch (SensorDataTransformationException ex)
+            {
+                Logger.Error(ex, ex.Message);
+                return;
+            }
+            catch (DataSendingException ex)
+            {
+                Logger.Error(ex, ex.Message);
+                return;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "Error during sending data to Server");
-                return; // Exit the method if sending data fails
+                Logger.Error(ex, "An unexpected error occurred during the processing of sensor data");
+                return; 
             }
 
             Console.WriteLine();
@@ -271,7 +286,7 @@ namespace DeviceService
                     await Task.Delay(delay);
                 }
 
-                throw new Exception($"Error sending data after {maxRetries} attempts.");
+                throw new DataSendingException($"Error sending data after {maxRetries} attempts.");
             }
         }
     }
