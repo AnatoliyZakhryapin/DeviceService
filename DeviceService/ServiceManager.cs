@@ -99,17 +99,17 @@ namespace DeviceService
 
                     if (line != null)
                     {
-                        string[] lineVulues = line.Split(';');
+                        string[] lineValues = line.Split(';');
 
-                        if (lineVulues.Length == 5)
+                        if (lineValues.Length == 5)
                         {
                             SensorData sensorData = new SensorData
                             {
-                                SensorId =Convert.ToInt32(lineVulues[0]),
-                                Timestamp = ConvertTimestampToDateTime(long.Parse(lineVulues[1])),
-                                Date = lineVulues[2],
-                                Time = lineVulues[3],
-                                Value = double.Parse(lineVulues[4], CultureInfo.InvariantCulture)
+                                SensorId =Convert.ToInt32(lineValues[0]),
+                                Timestamp = ConvertTimestampToDateTime(long.Parse(lineValues[1])),
+                                Date = lineValues[2],
+                                Time = lineValues[3],
+                                Value = double.Parse(lineValues[4], new CultureInfo("it-IT"))
                             };
 
                             sensorDataList.Add(sensorData);
