@@ -67,20 +67,16 @@ The project utilizes Dependency Injection (DI) to manage class instances and enh
 This approach keeps the code modular, facilitates unit testing, and ensures centralized management of configurations and dependencies.
 
 ##  Installation and Usage
+1. **Clone the repository DeviceServiceServer for remote controll:**
+   ```bash
+   git clone https://github.com/AnatoliyZakhryapin/DeviceServiceServer.git
+   ``` 
 
-1. **Clone the repository:**
+ 2. **Clone the repository DeviceService:**
    ```bash
    git clone https://github.com/AnatoliyZakhryapin/DeviceService.git 
-   cd DeviceService
+   ```
 
-2. **Build the project:**  
-    ```bash
-   dotnet build
-
-3. **Run the project:**  
-     ```bash
-   dotnet run
-   
 ## Configuration
 
 ### Data CSV File
